@@ -4,7 +4,7 @@ import { Tarea } from './Tarea';
 
 export const ListadoTareas = () => {
   const context = useContext(ProyectoContext);
-  const { proyectoActual } = context;
+  const { proyectoActual, eliminarProyecto } = context;
 
   if (!proyectoActual) return <h2>Selecciona un Proyecto</h2>;
   const [proyecto] = proyectoActual;
@@ -26,7 +26,11 @@ export const ListadoTareas = () => {
           tareasProyecto.map((tarea) => <Tarea tarea={tarea} />)
         )}
       </ul>
-      <button type='button' className='btn btn-eliminar'>
+      <button
+        type='button'
+        className='btn btn-eliminar'
+        onClick={() => eliminarProyecto(proyecto.id)}
+      >
         Eliminar Proyecto &times;
       </button>
     </>
