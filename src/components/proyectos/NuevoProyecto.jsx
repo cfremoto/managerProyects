@@ -3,7 +3,7 @@ import { ProyectoContext } from '../../context/ProyectoContext';
 
 export const NuevoProyecto = () => {
   const context = useContext(ProyectoContext);
-  const { formProyecto, mostrarFormulario } = context;
+  const { formProyecto, mostrarFormulario, agregarProyecto } = context;
 
   const [proyecto, setProyecto] = useState({ nombre: '' });
   const { nombre } = proyecto;
@@ -17,6 +17,8 @@ export const NuevoProyecto = () => {
 
   const onSubmitProyecto = (e) => {
     e.preventDefault();
+    agregarProyecto(proyecto);
+    proyecto = '';
   };
 
   const mostrar = () => {
