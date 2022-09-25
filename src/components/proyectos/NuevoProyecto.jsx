@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import Swal from 'sweetalert2';
 import { ProyectoContext } from '../../context/ProyectoContext';
 
 export const NuevoProyecto = () => {
@@ -17,8 +18,15 @@ export const NuevoProyecto = () => {
 
   const onSubmitProyecto = (e) => {
     e.preventDefault();
+    if (nombre === '') {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'El campo nombre no puede estar vacio!',
+      });
+    }
     agregarProyecto(proyecto);
-    proyecto = '';
+    setProyecto({ nombre: '' });
   };
 
   const mostrar = () => {
@@ -39,7 +47,7 @@ export const NuevoProyecto = () => {
             placeholder='Nombre del Proyecto'
             name='nombre'
             onChange={onChangeProyecto}
-            velue={nombre}
+            value={nombre}
           />
 
           <input

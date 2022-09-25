@@ -1,4 +1,14 @@
+import { useContext } from 'react';
+import { ProyectoContext } from '../../context/ProyectoContext';
+
 export const FormTareas = () => {
+  const context = useContext(ProyectoContext);
+  const { proyectoActual } = context;
+
+  if (!proyectoActual) return null;
+
+  const [proyecto] = proyectoActual;
+
   return (
     <section className='formulario'>
       <form>
