@@ -1,19 +1,16 @@
 import { useContext } from 'react';
 import { ProyectoContext } from '../../context/ProyectoContext';
-import { Tarea } from './Tarea';
+import { TareaContext } from '../../context/tareas/TareaContext';
 
 export const ListadoTareas = () => {
   const context = useContext(ProyectoContext);
   const { proyectoActual, eliminarProyecto } = context;
 
+  const contextTarea = useContext(TareaContext);
+  const { tareasProyecto } = contextTarea;
+
   if (!proyectoActual) return <h2>Selecciona un Proyecto</h2>;
   const [proyecto] = proyectoActual;
-
-  const tareasProyecto = [
-    { nombre: 'Elegir Tarea', estado: true },
-    { nombre: 'Elegir Tarea1', estado: false },
-    { nombre: 'Elegir Tarea2', estado: false },
-  ];
 
   return (
     <>
