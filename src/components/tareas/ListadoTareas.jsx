@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { ProyectoContext } from '../../context/ProyectoContext';
 import { TareaContext } from '../../context/tareas/TareaContext';
+import { Tarea } from './Tarea';
 
 export const ListadoTareas = () => {
   const context = useContext(ProyectoContext);
@@ -20,7 +21,7 @@ export const ListadoTareas = () => {
         {tareasProyecto.length === 0 ? (
           <li className='tera'>No hay Tareas</li>
         ) : (
-          tareasProyecto.map((tarea) => <Tarea tarea={tarea} />)
+          tareasProyecto.map((tarea) => <Tarea key={tarea.id} tarea={tarea} />)
         )}
       </ul>
       <button
