@@ -1,15 +1,31 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AlertaContext } from '../../context/alerta/AlertaContext';
+import { AuthContext } from '../../context/auth/AuthContext';
 
 const initialState = {
   nombre: '',
   telefono: '',
   email: '',
   password: '',
+  confirmar: '',
 };
 
 const NuevaCuenta = () => {
+  const alertaContext = useContext(AlertaContext);
+  const { alerta, mostrarAlerta } = alertaContext;
+
+  const authContext = useContext(AuthContext);
+  const { autenticado, mensaje, registrarUser } = authContext;
+
   const [user, setUser] = useState(initialState);
+  const { nombre, telefono, email, password, confirmar } = user;
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (mensaje) mostrarAlerta(mensaje.categoria, mensaje.mensaje);
+  }, [mensaje, navigate]);
 
   const handleInput = (e) => {
     setUser({
@@ -18,10 +34,46 @@ const NuevaCuenta = () => {
     });
   };
 
-  const register = () => {};
+  const register = (e) => {
+    e.preventDefault();
+
+    if (
+      nombre.trim() === '' ||
+      email.trim() === '' ||
+      password.trim() === '' ||
+      confirmar.trim() === ''
+    ) {
+      mostrarAlerta('alerta-error', 'Todos los campos son obligatorios');
+      return;
+    }
+
+    if (password.length < 6) {
+      mostrarAlerta('alerta-error', 'El password debe de ser min 6 caracteres');
+      return;
+    }
+
+    if (password !== confirmar) {
+      mostrarAlerta('alerta-error', 'El password no es correcto');
+      return;
+    }
+
+    registrarUser({
+      nombre,
+      telefono,
+      email,
+      password,
+    });
+
+    setUser(initialState);
+    navigate('/');
+  };
 
   return (
     <section className='form-usuario'>
+      {alerta ? (
+        <div className={`alerta ${alerta.categoria}`}> {alerta.msg} </div>
+      ) : null}
+
       <div className='contenedor-form sombra-drak'>
         <h1>Registrar Usuario</h1>
 
@@ -90,7 +142,7 @@ const NuevaCuenta = () => {
             <input
               type='submit'
               className='btn btn-primario btn-block'
-              value='Iniciar Sesion'
+              value='Registrar'
             />
           </div>
         </form>

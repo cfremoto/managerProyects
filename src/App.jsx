@@ -1,14 +1,11 @@
-import Rutas from "./components/routes/Rutas"
-
+import Rutas from './components/routes/Rutas';
 
 function App() {
-
-
   return (
     <>
       <Rutas />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
