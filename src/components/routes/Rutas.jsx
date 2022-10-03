@@ -9,9 +9,14 @@ const Rutas = () => {
     <Routes>
       <Route path='/' element={<Login />} />
       <Route path='/nueva-cuenta' element={<NuevaCuenta />} />
-      <Route element={<ProtectedRoute />}>
-        <Route path='/proyectos' element={<Proyectos />} />
-      </Route>
+      <Route
+        path='/proyectos'
+        element={
+          <ProtectedRoute>
+            <Proyectos />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 };

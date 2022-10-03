@@ -47,9 +47,10 @@ export const AuthState = (props) => {
   const autenticarSesion = async (datos) => {
     try {
       const response = await clienteAxios.post('/login', datos);
+
       dispatch({
         type: LOGIN_EXITOSO,
-        payload: response.data.enviar,
+        payload: response.data,
       });
     } catch (err) {
       const alerta = {
@@ -70,7 +71,6 @@ export const AuthState = (props) => {
 
     try {
       const respuesta = await clienteAxios.get('/login');
-
       dispatch({
         type: OBTENER_USUARIO,
         payload: respuesta.data.userValidado,

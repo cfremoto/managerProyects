@@ -1,13 +1,19 @@
-import { useContext } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthContext';
 
-export const ProtectedRoute = ({ children, redirectTo = '/' }) => {
-  const authContext = useContext(AuthContext);
-  const { autenticado } = authContext;
+export const ProtectedRoute = ({ children }) => {
+  const authConext = useContext(AuthContext);
+  const { autenticado, usuarioAutenticado } = authConext;
+
+  useEffect(() => {
+    usuarioAutenticado();
+  }, []);
+
+  const navigate = useNavigate();
 
   if (!autenticado) {
-    return <Navigate to={redirectTo} />;
+    return navigate('/');
   }
 
   return children ? children : <Outlet />;

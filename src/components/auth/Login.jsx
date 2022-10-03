@@ -10,7 +10,7 @@ const initialState = {
 
 const Login = () => {
   const authContext = useContext(AuthContext);
-  const { autenticado, mensaje, autenticarSesion } = authContext;
+  const { mensaje, autenticarSesion } = authContext;
 
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
@@ -40,8 +40,8 @@ const Login = () => {
     }
 
     autenticarSesion(user);
-    setUser(initialState);
     navigate('/proyectos');
+    setUser(initialState);
   };
 
   return (
