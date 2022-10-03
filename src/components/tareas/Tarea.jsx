@@ -10,7 +10,7 @@ export const Tarea = ({ tarea }) => {
   const [proyecto] = proyectoActual;
 
   const contextTarea = useContext(TareaContext);
-  const { eliminarTarea, obtenerTareas, cambiarEstadoTarea, guardarTareaEditar } =
+  const { eliminarTarea, obtenerTareas, actualizarTarea, guardarTareaEditar } =
     contextTarea;
 
   const onClickEditar = (tarea) => {
@@ -19,12 +19,12 @@ export const Tarea = ({ tarea }) => {
 
   const onClickEliminar = (id) => {
     eliminarTarea(id);
-    obtenerTareas(proyecto.id);
+    obtenerTareas(proyecto._id);
   };
 
   const cambiarEstado = (tarea) => {
     tarea.estado = !tarea.estado;
-    cambiarEstadoTarea(tarea);
+    actualizarTarea(tarea);
   };
 
   return (

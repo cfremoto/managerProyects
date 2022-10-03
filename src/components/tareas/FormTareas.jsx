@@ -58,13 +58,11 @@ export const FormTareas = () => {
       actualizarTarea(tarea);
       limpiarTareaSeleccionada();
     } else {
-      tarea.id = tareas.length + 1;
-      tarea.proyectoId = proyecto.id;
-      tarea.estado = false;
+      tarea.proyecto = proyecto._id;
       agregarTareas(tarea);
     }
 
-    obtenerTareas(proyecto.id);
+    obtenerTareas(proyecto._id);
 
     setTarea({
       nombre: '',

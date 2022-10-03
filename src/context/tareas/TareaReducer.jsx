@@ -2,7 +2,6 @@ import {
   ACTUALIZAR_TAREA,
   AGREGAR_TAREAS,
   ELIMINAR_TAREA,
-  ESTADO_TAREA,
   LIMPIAR_TAREAEDITAR,
   OBTENER_TAREAS,
   TAREA_EDITAR,
@@ -13,9 +12,7 @@ export default (state, action) => {
     case OBTENER_TAREAS:
       return {
         ...state,
-        tareasProyecto: state.tareas.filter(
-          (tarea) => tarea.proyectoId === action.payload
-        ),
+        tareas: action.payload,
       };
 
     case AGREGAR_TAREAS:
@@ -27,22 +24,21 @@ export default (state, action) => {
     case ELIMINAR_TAREA:
       return {
         ...state,
-        tareas: state.tareas.filter((tarea) => tarea.id !== action.payload),
-      };
-
-    case ACTUALIZAR_TAREA:
-    case ESTADO_TAREA:
-      return {
-        ...state,
-        tareas: state.tareasProyecto.map((tarea) =>
-          tarea.id === action.payload.id ? action.payload : tarea
-        ),
+        tareas: state.tareas.filter((tarea) => tarea._id !== action.payload),
       };
 
     case TAREA_EDITAR:
       return {
         ...state,
         tareaEditar: action.payload,
+      };
+
+    case ACTUALIZAR_TAREA:
+      return {
+        ...state,
+        tareas: state.tareas.map((tarea) =>
+          tarea._id === action.payload._id ? action.payload : tarea
+        ),
       };
 
     case LIMPIAR_TAREAEDITAR:

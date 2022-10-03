@@ -15,7 +15,7 @@ export const ListadoProyectos = () => {
   return (
     <ul className='listado-proyectos'>
       {proyectos.map((proyecto) => (
-        <Proyecto key={proyecto.id} proyecto={proyecto} />
+        <Proyecto key={proyecto._id} proyecto={proyecto} />
       ))}
     </ul>
   );

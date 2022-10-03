@@ -3,7 +3,7 @@ import { ProyectoContext } from '../../context/ProyectoContext';
 import { TareaContext } from '../../context/tareas/TareaContext';
 
 export const Proyecto = ({ proyecto }) => {
-  const { nombre, id } = proyecto;
+  const { nombre, _id } = proyecto;
 
   const context = useContext(ProyectoContext);
   const { obtenerProyectoActual } = context;
@@ -18,7 +18,7 @@ export const Proyecto = ({ proyecto }) => {
 
   return (
     <li>
-      <button type='button' className='btn btn-blank' onClick={() => obtenerId(id)}>
+      <button type='button' className='btn btn-blank' onClick={() => obtenerId(_id)}>
         {nombre}
       </button>
     </li>

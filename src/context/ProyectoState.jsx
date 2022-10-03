@@ -6,16 +6,11 @@ import {
   OBTENER_PROYECTO,
   OBTENER_PROYECTOS,
 } from '../types';
+import { clienteAxios } from '../utils/Axios';
 import { ProyectoContext } from './ProyectoContext';
 import ProyectoReducer from './ProyectoReducer';
 
 export const ProyectoState = (props) => {
-  const proyectos = [
-    { nombre: 'portfolio', id: 111111 },
-    { nombre: 'backend ecommerce', id: 222222 },
-    { nombre: 'front ecommerce', id: 333333 },
-  ];
-
   const initialState = {
     proyectos: [],
     formNewProyecto: false,
@@ -28,19 +23,29 @@ export const ProyectoState = (props) => {
     dispatch({ type: FORMULARIO_PROYECTO });
   };
 
-  const obtenerProyectos = () => {
-    dispatch({
-      type: OBTENER_PROYECTOS,
-      payload: proyectos,
-    });
+  const obtenerProyectos = async () => {
+    try {
+      const respuesta = await clienteAxios.get('/proyectos');
+      dispatch({
+        type: OBTENER_PROYECTOS,
+        payload: respuesta.data.proyectos,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const agregarProyecto = (proyecto) => {
-    proyecto.id = proyectos.length + 1;
-    dispatch({
-      type: AGREGAR_PROYECTO,
-      payload: proyecto,
-    });
+  const agregarProyecto = async (proyecto) => {
+    try {
+      const response = await clienteAxios.post('/proyectos', proyecto);
+      console.log(response);
+      dispatch({
+        type: AGREGAR_PROYECTO,
+        payload: response.data.newProyecto,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const obtenerProyectoActual = (proyectoId) => {
@@ -50,11 +55,16 @@ export const ProyectoState = (props) => {
     });
   };
 
-  const eliminarProyecto = (proyectoId) => {
-    dispatch({
-      type: ELIMINAR_PROYECTO,
-      payload: proyectoId,
-    });
+  const eliminarProyecto = async (proyectoId) => {
+    try {
+      await clienteAxios.delete(`/proyectos/${proyectoId}`);
+      dispatch({
+        type: ELIMINAR_PROYECTO,
+        payload: proyectoId,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
