@@ -1,6 +1,13 @@
 import { useReducer } from 'react';
-import { REGISTRO_ERROR, REGISTRO_EXITOSO } from '../../types';
+import {
+  LOGIN_ERROR,
+  LOGIN_EXITOSO,
+  REGISTRO_ERROR,
+  REGISTRO_EXITOSO,
+} from '../../types';
+import { OBTENER_USUARIO } from '../../types/index';
 import { clienteAxios } from '../../utils/Axios';
+import { tokenAuth } from '../../utils/tokenAuth';
 import { AuthContext } from './AuthContext';
 import AuthReducer from './AuthReducer';
 
@@ -17,7 +24,6 @@ export const AuthState = (props) => {
   const registrarUser = async (datos) => {
     try {
       const response = await clienteAxios.post('/user', datos);
-      console.log(response);
 
       dispatch({
         type: REGISTRO_EXITOSO,
@@ -37,14 +43,54 @@ export const AuthState = (props) => {
     }
   };
 
+  const autenticarSesion = async (datos) => {
+    try {
+      const response = await clienteAxios.post('/login', datos);
+      dispatch({
+        type: LOGIN_EXITOSO,
+        payload: response.data.enviar,
+      });
+    } catch (err) {
+      const alerta = {
+        categoria: 'alerta-error',
+        mensaje: err.response.data.info,
+      };
+
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+
+  const usuarioAutenticado = async () => {
+    const token = localStorage.getItem('token');
+    if (token) tokenAuth(token);
+
+    try {
+      const respuesta = await clienteAxios.get('/login');
+
+      dispatch({
+        type: OBTENER_USUARIO,
+        payload: respuesta.data.userValidado,
+      });
+    } catch (err) {
+      console.log(err.response);
+      dispatch({
+        type: LOGIN_ERROR,
+      });
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
-        token: state.token,
         usuario: state.usuario,
         autenticado: state.autenticado,
         mensaje: state.mensaje,
         registrarUser,
+        autenticarSesion,
+        usuarioAutenticado,
       }}
     >
       {props.children}

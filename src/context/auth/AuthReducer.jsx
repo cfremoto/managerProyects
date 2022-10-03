@@ -10,13 +10,12 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case REGISTRO_EXITOSO:
-      localStorage.setItem('token', action.payload.token);
       return {
         ...state,
-        autenticado: true,
         mensaje: null,
       };
 
+    case LOGIN_ERROR:
     case REGISTRO_ERROR:
       return {
         ...state,
@@ -24,17 +23,24 @@ export default (state, action) => {
         mensaje: action.payload,
       };
 
-    case OBTENER_USUARIO:
-      return;
-
     case CERRAR_SESION:
       return;
 
     case LOGIN_EXITOSO:
-      return;
+      return {
+        ...state,
+        autenticado: true,
+        mensaje: null,
+        usuario: action.payload,
+        token: localStorage.setItem('token', action.payload.token),
+      };
 
-    case LOGIN_ERROR:
-      return;
+    case OBTENER_USUARIO:
+      return {
+        ...state,
+        usuario: action.payload,
+        autenticado: true,
+      };
 
     default:
       return state;
