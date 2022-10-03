@@ -3,7 +3,7 @@ import { AuthContext } from '../../context/auth/AuthContext';
 import { Nav } from '../nav/Nav';
 export const Header = () => {
   const authContext = useContext(AuthContext);
-  const { usuarioAutenticado, usuario } = authContext;
+  const { usuario, usuarioAutenticado } = authContext;
 
   useEffect(() => {
     usuarioAutenticado();

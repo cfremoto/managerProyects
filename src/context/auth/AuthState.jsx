@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import {
+  CERRAR_SESION,
   LOGIN_ERROR,
   LOGIN_EXITOSO,
   REGISTRO_ERROR,
@@ -82,6 +83,12 @@ export const AuthState = (props) => {
     }
   };
 
+  const cerrarSesion = () => {
+    dispatch({
+      type: CERRAR_SESION,
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -91,6 +98,7 @@ export const AuthState = (props) => {
         registrarUser,
         autenticarSesion,
         usuarioAutenticado,
+        cerrarSesion,
       }}
     >
       {props.children}
