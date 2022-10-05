@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AlertaContext } from '../../context/alerta/AlertaContext';
 import { AuthContext } from '../../context/auth/AuthContext';
 
 const initialState = {
-  email: '',
   password: '',
+  confirmar: '',
 };
 
-const Login = () => {
+export const RestablecerPass = () => {
   const authContext = useContext(AuthContext);
   const { mensaje, autenticarSesion } = authContext;
 
@@ -19,29 +19,28 @@ const Login = () => {
     if (mensaje) mostrarAlerta(mensaje.categoria, mensaje.mensaje);
   }, [mensaje]);
 
-  const [user, setUser] = useState(initialState);
-  const { email, password } = user;
+  const [pass, setPass] = useState(initialState);
+  const { password, confirmar } = pass;
 
   const navigate = useNavigate();
 
   const iniciarSesion = (e) => {
-    setUser({
-      ...user,
+    setPass({
+      ...pass,
       [e.target.name]: e.target.value,
     });
   };
 
-  const loginUser = (e) => {
+  const restablecer = (e) => {
     e.preventDefault();
 
-    if (email.trim() === '' || password.trim() === '') {
-      mostrarAlerta('alerta-error', 'Todos los campos son obligatorios');
+    if (password.trim() === '' || confirmar.trim() === '') {
+      mostrarAlerta('alerta-error', 'Los campos son necesarios');
       return;
     }
 
-    autenticarSesion(user);
-    navigate('/proyectos');
-    setUser(initialState);
+    navigate('/');
+    setPass(initialState);
   };
 
   return (
@@ -51,21 +50,9 @@ const Login = () => {
       ) : null}
 
       <div className='contenedor-form sombra-drak'>
-        <h1>Iniciar Sesion</h1>
+        <h1>Restablecer Contraseña</h1>
 
-        <form onSubmit={loginUser}>
-          <div className='campo-form'>
-            <label htmlFor='email'>Email:</label>
-            <input
-              type='email'
-              id='email'
-              name='email'
-              placeholder='example@example.com'
-              value={user.email}
-              onChange={iniciarSesion}
-            />
-          </div>
-
+        <form onSubmit={restablecer}>
           <div className='campo-form'>
             <label htmlFor='password'>Password:</label>
             <input
@@ -73,7 +60,19 @@ const Login = () => {
               id='password'
               name='password'
               placeholder='********'
-              value={user.password}
+              value={password}
+              onChange={iniciarSesion}
+            />
+          </div>
+
+          <div className='campo-form'>
+            <label htmlFor='confirmar'>Password:</label>
+            <input
+              type='password'
+              id='confirmar'
+              name='confirmar'
+              placeholder='********'
+              value={confirmar}
               onChange={iniciarSesion}
             />
           </div>
@@ -82,19 +81,11 @@ const Login = () => {
             <input
               type='submit'
               className='btn btn-primario btn-block'
-              value='Iniciar Sesion'
+              value='Restablecer'
             />
           </div>
         </form>
-        <p>
-          ¿Aun no tienes una cuenta? Haz click
-          <Link to='/nueva-cuenta'> Aqui!</Link>
-          <p>
-            <Link to='/restablecer'> Olvidaste tu password?</Link>
-          </p>
-        </p>
       </div>
     </section>
   );
 };
-export default Login;
